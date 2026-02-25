@@ -224,12 +224,13 @@ body{background:#09090b;color:#fafafa;font-family:'DM Sans',system-ui,sans-serif
     <div class="section-label">See It In Action</div>
     <div class="section-title">Intelligence that operates at rack speed</div>
   </div>
-  <div class="video-container">
+  <div class="video-container" id="demo-video-container" onclick="playDemoVideo()" onkeydown="if(event.key==='Enter'||event.key===' ') { event.preventDefault(); playDemoVideo(); }" role="button" tabindex="0" aria-label="Play product demo video">
     <div class="video-glow"></div>
-    <div style="text-align:center">
+    <div id="demo-video-poster" style="text-align:center">
       <div class="play-btn"><div class="play-icon"></div></div>
       <div class="video-label">Product Demo · 0:40</div>
     </div>
+    <iframe id="demo-video-iframe" style="display:none;position:absolute;inset:0;width:100%;height:100%;border:0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen title="UpOnline DC Product Demo"></iframe>
   </div>
 </section>
 
@@ -428,6 +429,16 @@ function showFeat(n, el) {
   document.querySelectorAll('.feat-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('feat-' + n).style.display = 'grid';
   el.classList.add('active');
+}
+function playDemoVideo() {
+  var container = document.getElementById('demo-video-container');
+  var poster = document.getElementById('demo-video-poster');
+  var iframe = document.getElementById('demo-video-iframe');
+  if (!iframe || !poster) return;
+  if (iframe.style.display === 'block') return;
+  poster.style.display = 'none';
+  iframe.src = 'https://www.youtube.com/embed/MQoe16cy8TA?autoplay=1';
+  iframe.style.display = 'block';
 }
 function handleSubmit(e) {
   e.preventDefault();
