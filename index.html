@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UpOnline DC — AI Operations Brain for GPU Data Centers</title>
-<meta name="description" content="Predict infrastructure risk, protect training jobs, and validate every change — before incidents happen. Purpose-built for AI-scale compute.">
+<meta name="description" content="Predict cooling failures, eliminate energy waste, and generate the water compliance data that gets permits approved — across any hardware fleet.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -51,8 +51,16 @@ body{background:#09090b;color:#fafafa;font-family:'DM Sans',system-ui,sans-serif
 .section-desc{font-size:18px;color:#a1a1aa;max-width:560px;line-height:1.65;margin-bottom:60px;}
 .divider{height:1px;background:linear-gradient(90deg,transparent,#27272a,transparent);max-width:1200px;margin:0 auto;}
 
+/* ── Stats Bar ── */
+.stats-bar{max-width:1200px;margin:0 auto;padding:0 32px 60px;}
+.stats-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.stat-item{background:rgba(24,24,27,.5);border:1px solid #27272a;border-radius:12px;padding:24px;text-align:center;transition:border-color .2s;}
+.stat-item:hover{border-color:rgba(16,185,129,.25);}
+.stat-value{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:#34d399;margin-bottom:8px;letter-spacing:-.5px;}
+.stat-label{font-size:13px;color:#71717a;line-height:1.4;}
+
 /* ── Pain ── */
-.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.pain-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
 .pain-card{background:rgba(24,24,27,.5);border:1px solid #27272a;border-radius:14px;padding:32px;transition:all .3s;position:relative;overflow:hidden;}
 .pain-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s;}
 .pain-card:hover{border-color:#3f3f46;transform:translateY(-4px);}.pain-card:hover::before{opacity:1;}
@@ -95,6 +103,35 @@ body{background:#09090b;color:#fafafa;font-family:'DM Sans',system-ui,sans-serif
 .val-badge{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:12px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;color:#34d399;margin-bottom:16px;}
 .val-line{font-family:'JetBrains Mono',monospace;font-size:12px;padding:5px 0;line-height:1.5;}
 .val-line.pass{color:#34d399;}.val-line.warn{color:#fbbf24;}
+.cooling-visual,.wue-visual{text-align:center;padding:24px;}
+.cooling-score,.wue-value{font-family:'JetBrains Mono',monospace;font-size:48px;font-weight:700;color:#34d399;line-height:1;}
+.cooling-label,.wue-label{font-size:12px;color:#71717a;margin-top:8px;font-family:'JetBrains Mono',monospace;}
+.cooling-waste{font-family:'JetBrains Mono',monospace;font-size:14px;color:#f87171;margin-top:16px;}
+.wue-badge{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:8px 16px;font-size:12px;color:#34d399;margin-top:16px;display:inline-block;font-family:'JetBrains Mono',monospace;}
+
+/* ── Vendor-Neutral ── */
+.vendor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px;}
+.vendor-card{padding:24px;border-radius:12px;border:1px solid #27272a;background:rgba(24,24,27,.5);}
+.vendor-card.vendor-other{border-color:#27272a;}
+.vendor-card.vendor-us{border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.04);}
+.vendor-name{font-size:16px;font-weight:600;margin-bottom:8px;}
+.vendor-scope{font-size:14px;color:#71717a;line-height:1.5;font-family:'JetBrains Mono',monospace;}
+.vendor-evidence{font-size:14px;color:#71717a;text-align:center;max-width:560px;margin:0 auto;}
+
+/* ── Waterless / Compare ── */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+.compare-col{padding:32px;border-radius:14px;border:1px solid #27272a;background:rgba(24,24,27,.5);}
+.compare-col.compare-bad{border-color:rgba(239,68,68,.2);}
+.compare-col.compare-good{border-color:rgba(16,185,129,.25);background:rgba(16,185,129,.04);}
+.compare-col h4{font-size:18px;font-weight:600;margin-bottom:16px;}
+.compare-col ul{list-style:none;}
+.compare-col li{font-size:15px;color:#a1a1aa;line-height:1.7;margin-bottom:10px;padding-left:20px;position:relative;}
+.compare-col li::before{content:'·';position:absolute;left:0;color:#71717a;}
+
+/* ── Flywheel ── */
+.flywheel-flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;}
+.flywheel-step{padding:12px 20px;background:rgba(24,24,27,.5);border:1px solid #27272a;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#d4d4d8;}
+.flywheel-arrow{color:#52525b;font-size:16px;}
 
 /* ── Steps ── */
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
@@ -142,13 +179,19 @@ body{background:#09090b;color:#fafafa;font-family:'DM Sans',system-ui,sans-serif
 /* ── Responsive ── */
 @media(max-width:900px){
   .pain-grid,.steps,.trust-grid{grid-template-columns:1fr 1fr;}
+  .stats-inner{grid-template-columns:1fr 1fr;}
   .feat-content,.cta-box{grid-template-columns:1fr;}
+  .vendor-grid{grid-template-columns:1fr;}
+  .compare-grid{grid-template-columns:1fr;}
   .nav-links{display:none;}
   .hero h1{letter-spacing:-1.5px;}
 }
 @media(max-width:600px){
   .pain-grid,.steps,.trust-grid{grid-template-columns:1fr;}
+  .stats-inner{grid-template-columns:1fr;}
   .form-row{grid-template-columns:1fr;}
+  .footer{flex-direction:column;gap:24px;text-align:center;}
+  .footer-right a{margin-left:0;margin-right:16px;}
   .cta-box{padding:32px 24px;}
   .hero{padding:130px 20px 80px;}
   .section{padding:80px 20px;}
@@ -184,10 +227,32 @@ body{background:#09090b;color:#fafafa;font-family:'DM Sans',system-ui,sans-serif
       Autonomous Data Center Operations
     </div>
     <h1>The AI operations brain for <span class="gradient" style="white-space:nowrap;">GPU data centers</span></h1>
-    <p class="hero-sub">Predict infrastructure risk, protect training jobs, and validate every change — before incidents happen. Purpose-built for AI-scale compute.</p>
+    <p class="hero-sub">Predict cooling failures, eliminate energy waste, and generate the water compliance data that gets permits approved — across any hardware fleet.</p>
     <div class="hero-ctas">
       <a href="#cta" class="btn-primary">Request Early Access →</a>
       <a href="#demo" class="btn-secondary">Watch Demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Bar -->
+<section class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-value">$16–29B</div>
+      <div class="stat-label">DC liquid cooling market by 2030</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">$64B</div>
+      <div class="stat-label">US projects blocked over water/energy</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">30–55%</div>
+      <div class="stat-label">Cooling as % of DC energy</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">$380B+</div>
+      <div class="stat-label">Hyperscaler AI infra spend (2025)</div>
     </div>
   </div>
 </section>
@@ -212,6 +277,11 @@ body{background:#09090b;color:#fafafa;font-family:'DM Sans',system-ui,sans-serif
       <div class="pain-icon" style="background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.18)">🧠</div>
       <h3>Blind ML teams</h3>
       <p>When infrastructure degrades, ML engineers see slow training but can't trace it to a rack. Facilities sees a hot rack but doesn't know which jobs are affected.</p>
+    </div>
+    <div class="pain-card" style="--accent:#60a5fa">
+      <div class="pain-icon" style="background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.18)">💧</div>
+      <h3>Water is killing your permits</h3>
+      <p>Large data centers consume up to 5 million gallons of water per day. $64 billion in US projects have been blocked by communities over water and energy concerns. ~80% of withdrawn water evaporates permanently.</p>
     </div>
   </div>
 </section>
@@ -246,6 +316,8 @@ body{background:#09090b;color:#fafafa;font-family:'DM Sans',system-ui,sans-serif
     <button class="feat-tab active" onclick="showFeat(0,this)">RISK INTELLIGENCE</button>
     <button class="feat-tab" onclick="showFeat(1,this)">TRAINING IMPACT</button>
     <button class="feat-tab" onclick="showFeat(2,this)">CHANGE VALIDATION</button>
+    <button class="feat-tab" onclick="showFeat(3,this)">COOLING INTELLIGENCE</button>
+    <button class="feat-tab" onclick="showFeat(4,this)">WATER & COMPLIANCE</button>
   </div>
 
   <div id="feat-0" class="feat-content">
@@ -317,6 +389,90 @@ throughput</div>
       </div>
     </div>
   </div>
+
+  <div id="feat-3" class="feat-content" style="display:none">
+    <div class="feat-text">
+      <h3>See exactly where cooling energy is wasted — in dollars</h3>
+      <p>Per-rack and per-zone cooling efficiency scoring quantifies waste in real-time. Know your thermal lag, predict when cooling capacity will be exhausted, and get actionable recommendations that save $400–600 per rack per month.</p>
+      <div class="feat-metric"><div class="feat-metric-dot"></div>20–40% cooling energy reduction</div>
+      <div class="feat-metric"><div class="feat-metric-dot"></div>Real-time dollar-cost waste tracking</div>
+    </div>
+    <div class="feat-visual">
+      <div class="cooling-visual">
+        <div class="cooling-score">78</div>
+        <div class="cooling-label">Efficiency Score</div>
+        <div class="cooling-waste">$412/mo waste</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="feat-4" class="feat-content" style="display:none">
+    <div class="feat-text">
+      <h3>The compliance data that gets permits approved</h3>
+      <p>Continuous Water Usage Effectiveness (WUE) monitoring, auto-generated reports for EU regulations and US state requirements (California AB 93), and one-click community impact reports for city council presentations. When your VP can tell the city council 'our facility uses 60% less water than industry average, verified by real-time monitoring' — permits get approved.</p>
+      <div class="feat-metric"><div class="feat-metric-dot"></div>40–60% water consumption reduction</div>
+      <div class="feat-metric"><div class="feat-metric-dot"></div>One-click regulatory reports</div>
+    </div>
+    <div class="feat-visual">
+      <div class="wue-visual">
+        <div class="wue-value">0.42</div>
+        <div class="wue-label">WUE (L/kWh)</div>
+        <div class="wue-badge">Compliance Ready</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Vendor-Neutral -->
+<section class="section" id="vendor-neutral">
+  <div class="section-label">Why UpOnline</div>
+  <div class="section-title">The only platform that works across your entire fleet</div>
+  <div class="section-desc">NVIDIA will never optimize a facility to make AMD chips run cooler. We will.</div>
+  <div class="vendor-grid">
+    <div class="vendor-card vendor-other">
+      <div class="vendor-name">NVIDIA Mission Control</div>
+      <div class="vendor-scope">NVIDIA GPUs only</div>
+    </div>
+    <div class="vendor-card vendor-other">
+      <div class="vendor-name">Vertiv / Schneider</div>
+      <div class="vendor-scope">Own ecosystem hardware only</div>
+    </div>
+    <div class="vendor-card vendor-us">
+      <div class="vendor-name">UpOnline DC</div>
+      <div class="vendor-scope">NVIDIA + AMD + Intel + Custom ASICs + Any CDU vendor</div>
+    </div>
+  </div>
+  <p class="vendor-evidence">Leading hyperscalers and AI infrastructure operators run mixed GPU fleets — we're built for that reality.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- Waterless Cooling -->
+<section class="section" id="waterless">
+  <div class="section-label">Why Now</div>
+  <div class="section-title">How waterless cooling becomes possible</div>
+  <div class="section-desc">The industry is transitioning from evaporative (water-hungry) to closed-loop (waterless) cooling. Closed-loop is harder to operate — it requires intelligent management.</div>
+  <div class="compare-grid">
+    <div class="compare-col compare-bad">
+      <h4>Without UpOnline</h4>
+      <ul>
+        <li>Overcooling and water waste</li>
+        <li>Static capacity assumptions</li>
+        <li>Reactive incident response</li>
+      </ul>
+    </div>
+    <div class="compare-col compare-good">
+      <h4>With UpOnline</h4>
+      <ul>
+        <li>Right-sized cooling, zero water</li>
+        <li>Predictive pre-staging before workloads start</li>
+        <li>Real-time optimization to match GPU utilization</li>
+        <li>Pump degradation and coolant flow anomaly detection</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
 <div class="divider"></div>
@@ -336,6 +492,28 @@ throughput</div>
 
 <div class="divider"></div>
 
+<!-- Flywheel -->
+<section class="section" id="flywheel">
+  <div class="section-label">Platform Vision</div>
+  <div class="section-title">The compounding advantage</div>
+  <div class="section-desc">Software creates data, data improves predictions, predictions build trust — and trust enables the next phase.</div>
+  <div class="flywheel-flow">
+    <div class="flywheel-step">Software</div>
+    <div class="flywheel-arrow">→</div>
+    <div class="flywheel-step">Identifies waste</div>
+    <div class="flywheel-arrow">→</div>
+    <div class="flywheel-step">Sells sensors</div>
+    <div class="flywheel-arrow">→</div>
+    <div class="flywheel-step">Data improves predictions</div>
+    <div class="flywheel-arrow">→</div>
+    <div class="flywheel-step">Trust enables automation</div>
+    <div class="flywheel-arrow">→</div>
+    <div class="flywheel-step">REPEAT</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
 <!-- Trust -->
 <section class="section">
   <div class="section-label">Built for Enterprise Infrastructure</div>
@@ -348,6 +526,9 @@ throughput</div>
     <div class="trust-item"><span class="trust-icon">⚡</span>30-day onboarding</div>
     <div class="trust-item"><span class="trust-icon">📋</span>Immutable audit log</div>
     <div class="trust-item"><span class="trust-icon">🚫</span>No PLC-level access</div>
+    <div class="trust-item"><span class="trust-icon">⚖</span>Vendor-neutral by design — works with any GPU vendor, any CDU manufacturer</div>
+    <div class="trust-item"><span class="trust-icon">🔐</span>Your data stays yours — customers own 100% raw telemetry</div>
+    <div class="trust-item"><span class="trust-icon">🛡</span>Air-gap capable — edge appliance runs fully disconnected</div>
   </div>
 </section>
 
@@ -358,10 +539,13 @@ throughput</div>
   <div class="cta-box">
     <div class="cta-text">
       <h2>Get early access to UpOnline DC</h2>
-      <p>We're working with a small group of design partners to shape the product. If you're running GPU-dense infrastructure and dealing with thermal, power, or capacity challenges — we'd like to talk.</p>
+      <p>Design partners get priority onboarding, dedicated engineering support, and influence over the product roadmap — including features like Cooling Efficiency Score and WUE Tracker built to your specs. Proven ROI: $400–600/rack/month in cooling savings. Free pilot period with full platform access. Water compliance reports for permitting deliver immediate value even during the pilot.</p>
       <div class="cta-feat"><span class="cta-check">✓</span>No commitment required</div>
-      <div class="cta-feat"><span class="cta-check">✓</span>Priority onboarding for design partners</div>
-      <div class="cta-feat"><span class="cta-check">✓</span>Shape the product roadmap with us</div>
+      <div class="cta-feat"><span class="cta-check">✓</span>Priority onboarding and dedicated engineering support</div>
+      <div class="cta-feat"><span class="cta-check">✓</span>Influence product roadmap — Cooling Efficiency Score, WUE Tracker built to your specs</div>
+      <div class="cta-feat"><span class="cta-check">✓</span>Proven ROI: $400–600/rack/month in cooling savings</div>
+      <div class="cta-feat"><span class="cta-check">✓</span>Free pilot period with full platform access</div>
+      <div class="cta-feat"><span class="cta-check">✓</span>Water compliance reports for permitting — immediate value during pilot</div>
     </div>
     <form id="access-form" onsubmit="handleSubmit(event)">
       <div class="form-row">
@@ -419,6 +603,10 @@ throughput</div>
     <span>UpOnline DC · © 2026</span>
   </div>
   <div class="footer-right">
+    <a href="#features">Capabilities</a>
+    <a href="#how">How It Works</a>
+    <a href="#demo">Demo</a>
+    <a href="#cta">Request Early Access</a>
     <a href="/cdn-cgi/l/email-protection#4b232e2727240b3e3b24252722252e652a22"><span class="__cf_email__" data-cfemail="e088858c8c8fa095908f8e8c898e85ce8189">[email&#160;protected]</span></a>
   </div>
 </footer>
